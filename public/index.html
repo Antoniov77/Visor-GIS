@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- //boostrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+    <!-- Leaftlet -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- !-- Make sure you put this AFTER Leaflet's CSS --> 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+        
+    <title>TROPIFOREST S.A.S.</title>
+    <h1>Compensaciones TPF</h1>
+
+    <select name = "Departamento" id="Departamento">
+    <option value="-1">Seleccione el Departamento</option>
+    <option value="6.761649832014396, -75.5327669628857">Antioquia</option>
+    <option value="8.282560366111081, -75.92330588005036">Cordoba</option>
+    
+</select>
+
+<style>
+    #map {
+        height: 500px;
+        margin-top: 20px;
+    }
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+    }
+</style>
+
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <!-- <script src="scripts/tabla.js"></script> -->
+    <script src="scripts/Mapas.js"></script>
+    
+    
+        <div class="container">
+            <h1 class="text-center">Ortofotos</h1>
+            <form id="imageForm">
+                <div class="mb-3">
+                    <label for="imageFile" class="form-label">Seleccionar Imagen Georreferenciada</label>
+                    <input type="file" class="form-control" id="imageFile" accept="image/*" required>
+                </div>
+                <div class="mb-3">
+                    <label for="topLeft" class="form-label">Coordenadas de la Esquina Superior Izquierda (Lat, Lng)</label>
+                    <input type="text" class="form-control" id="topLeft" placeholder="Ejemplo: 6.7, -75.6" required>
+                </div>
+                <div class="mb-3">
+                    <label for="bottomRight" class="form-label">Coordenadas de la Esquina Inferior Derecha (Lat, Lng)</label>
+                    <input type="text" class="form-control" id="bottomRight" placeholder="Ejemplo: 6.8, -75.5" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Cargar Imagen</button>
+            </form>
+        </div>
+
+    <script>
+        
+
+    // Manejar el formulario de carga de imagen
+        document.getElementById('imageForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Evitar recargar la página
+
+            // Obtener el archivo de imagen
+            var fileInput = document.getElementById('imageFile');
+            var file = fileInput.files[0];
+
+            // Validar que se haya seleccionado un archivo
+            if (!file) {
+                alert('Por favor, selecciona un archivo de imagen.');
+                return;
+            }
+
+            // Crear una URL temporal para la imagen
+            var imageUrl = URL.createObjectURL(file);
+
+            // Obtener las coordenadas ingresadas
+            var topLeft = document.getElementById('topLeft').value.split(',').map(Number);
+            var bottomRight = document.getElementById('bottomRight').value.split(',').map(Number);
+
+            // Validar las coordenadas
+            if (topLeft.length !== 2 || bottomRight.length !== 2) {
+                alert('Por favor, ingresa coordenadas válidas en el formato: lat, lng');
+                return;
+            }
+
+            // Crear los límites de la imagen
+            var bounds = [topLeft, bottomRight];
+
+            // Agregar la imagen al mapa
+            var overlay = L.imageOverlay(imageUrl, bounds).addTo(map);
+
+            // Ajustar la vista del mapa para mostrar la imagen
+            map.fitBounds(bounds);
+
+            // Liberar la URL temporal después de cargar la imagen
+            fileInput.value = ''; // Limpiar el input de archivo
+        });
+
+    </script>
+        
+
+</body>
+</html>

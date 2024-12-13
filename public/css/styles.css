@@ -1,0 +1,31 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+table, th, td {
+    border: 1px solid black;
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+#map { 
+    height: 90vh; 
+    border: 1px;
+    border-color: brown;
+    border-radius: 10px;
+}
+
+h1 {
+    color: #ffffff;
+    background-color: #4CAF50;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    border-radius: 10px;
+    font-style: italic; /* Estilo de letra cursiva */
+    font-weight: bold;  /* Fuente en negrita */
+    text-transform: uppercase; /* Texto en mayúsculas */
+}
+
